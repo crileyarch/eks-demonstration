@@ -19,15 +19,15 @@ The demonstration will focus on the topics discussed in prior conversations incl
 
 ### Security
 
-Discuss the use of Authentication, Encryption and Infrastructure Services in support of current security practices and improving this further.
+Discuss the use of Authentication, Encryption, Infrastructure Services, Container Scanning and Monitoring in support of current security practices.
 
-### Reallocate Teams
+### Agility
 
 Demonstrate how teams can easily migrate solutions via containers to AWS to help provide scale, reliability and cost efficient solutions. Demonstrate how a developer can wrap an existing solution and share with the organization via a central registry.  Demonstrate how an operator can automate this process further simplifying the developer experience and improving deliverables.
 
-### Time to Market
+### Speed
 
-Demonstrate through the creation of a single cluster with multiple namespaces. In this demonstration a sandbox namespace and a production namespace. APIs deployed to namespaces will get unique DNS endpoints designated the appropriate environment. Configuration / Secrets for the APIs will be stored for each environment and appropriate K8S manifests will parameterized. 
+Demonstrate how teams can easily support DevOps practices through the use of Continuous Integration and Continuous Delivery to multiple environments (e.g. Sandbox and Testing).  
 
 ### Reduce Costs
 
@@ -64,14 +64,14 @@ In the beginning of the presentation, the following AWS diagram is presented sho
 *Monitoring*
 
 
-* Network Traffic - VPC Flowlogs
-* Application Logs - Cloudwatch Container Insights
-* 
+* Network Traffic - AWS VPC Flowlogs
+* Application Logs - AWS Cloudwatch Container Insights
+* API Access - AWS CloudTrail 
 
 
 
 
-### Reallocate Teams (operator)
+### Security (operator)
 
 Show the manifest file and command used to spin up a cluster.
 
