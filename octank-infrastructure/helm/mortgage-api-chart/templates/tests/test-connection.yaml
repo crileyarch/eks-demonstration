@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "mortgage-api-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "mortgage-api-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "mortgage-api-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

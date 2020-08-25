@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+        docker: 19
+  pre_build:
+    commands:
+      - echo Performing npm activities
+      - cd client
+      - npm install
+      - npm run build
+      - echo Logging in to Amazon ECR
+      - $(aws ecr get-login --region us-east-2 --no-include-email)
+      - REPOSITORY_URI=102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image ...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+artifacts:
+  files:
+    - imagedefinitions.json
+  base-directory: client

@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+        docker: 18
+  build:
+    commands:
+       - echo Build started on `date`
+  post_build:
+    commands:
+       - echo Build completed on `date`
+       - mvn package
+       - $(aws ecr get-login --region us-east-2 --no-include-email) && docker build -t 102239939291.dkr.ecr.us-east-2.amazonaws.com/octank/mortgage-api:0.0.1 . && docker push 102239939291.dkr.ecr.us-east-2.amazonaws.com/octank/mortgage-api:0.0.1 

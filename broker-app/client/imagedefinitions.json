@@ -1,0 +1,6 @@
+[
+    {
+        "name": "broker-app",
+        "imageUri": "102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:latest"
+    }
+]

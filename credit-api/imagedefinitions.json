@@ -1,0 +1,6 @@
+[
+    {
+        "name": "credit-api",
+        "imageUri": "102239939291.dkr.ecr.us-east-2.amazonaws.com/octank/credit-api:0.0.1"
+    }
+]

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aurora-config
+data:
+  # property-like keys; each key maps to a simple value
+  aurora.db.mortgage: "rates"
+  aurora.db.credit: "credit"
+  aurora.db.service: "sandbox-db-1.cluapevls8wq.us-east-2.rds.amazonaws.com"

@@ -1,0 +1,27 @@
+# An example of ClusterConfig object using Managed Nodes
+---
+    apiVersion: eksctl.io/v1alpha5
+    kind: ClusterConfig
+    
+    metadata:
+      name: octank-eks-cluster
+      region: us-east-2
+      version: "1.17"
+
+    
+    managedNodeGroups:
+      - name: managed-ng-private
+        privateNetworking: true
+        instanceType: t3.medium
+        minSize: 1
+        desiredCapacity: 3
+        maxSize: 6
+        availabilityZones: ["us-east-2a", "us-east-2b", "us-east-2c"]
+        volumeSize: 20
+        labels: {role: worker}
+        tags:
+          nodegroup-role: worker
+    cloudWatch:
+      clusterLogging:
+        enableTypes:
+          - "api"

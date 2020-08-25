@@ -1,0 +1,7 @@
+{
+    "user": "AURORA_USERNAME",
+    "password": "AURORA_PASSWORD",
+    "url": "AURORA_SERVICE",
+    "database": "AURORA_DB_CREDIT"
+
+}

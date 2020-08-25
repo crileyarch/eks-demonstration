@@ -1,0 +1,31 @@
+Domain Prefix: 
+
+demo2company
+
+
+URL: 
+
+https://demo2company.auth.us-east-2.amazoncognito.com
+
+Sign-on URL
+
+https://demo2company.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=65ldp2v030j4ch67kvrtdjsfhc&redirect_uri=https://sandbox.demo2company.com
+
+
+IdentifierUri
+
+urn:amazon:cognito:sp:us-east-2_hX3Phm62E
+
+logoutUrl
+
+https://demo2company.auth.us-east-2.amazoncognito.com/logout?response_type=code&client_id=65ldp2v030j4ch67kvrtdjsfhc&redirect_uri=https://sandbox.demo2company.com
+
+replyURL
+https://demo2company.auth.us-east-2.amazoncognito.com/saml2/idpresponse
+
+Metatdata URL
+https://login.microsoftonline.com/2e591fd6-41ab-4493-8663-050aeccfcce7/federationmetadata/2007-06/federationmetadata.xml
+
+Attribute Mapping
+http://schemas.microsoft.com/identity/claims/displayname => Name
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name => Email

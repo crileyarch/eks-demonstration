@@ -1,0 +1,21 @@
+============= SAML2 Demo ====================
+
+https://demo2company.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=65ldp2v030j4ch67kvrtdjsfhc&redirect_uri=https://testing.demo2company.com
+
+hriley@chrisrileycprime.onmicrosoft.com
+
+https://demo2company.auth.us-east-2.amazoncognito.com/logout?response_type=code&client_id=65ldp2v030j4ch67kvrtdjsfhc&redirect_uri=https://testing.demo2company.com
+
+
+
+
+
+============= Container Demo ================
+npm start
+<modify code>
+npm run build
+docker build -t 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2 .
+docker run -d -p 3000:80 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2
+aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 102239939291.dkr.ecr.us-east-2.amazonaws.com
+docker push 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2
+
