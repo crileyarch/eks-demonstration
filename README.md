@@ -1,20 +1,20 @@
-# Octank Mortgage Application in AWS
+# Simulated Mortgage Broker Application in AWS
 
 ## Business Problem
 
-Octank is migrating core legacy applications to Amazon Web Services (AWS). One application, the mortgage broker application, provides rates to the broker and a link to a mortgage approval system. This application needs to be migrated to AWS but done in such a fashion to allow for enhancement of the platform by third parties. Specifically there is a request to add credit checking early in the loan process. This is to inform brokers as to what mortgage products would be most suitable prior to executing the lengthy approval process.
+Customer is migrating core legacy applications to Amazon Web Services (AWS). One application, the mortgage broker application, provides rates to the broker and will be enhanced with FICO details for a customer. This application needs to be migrated to AWS but done in such a fashion to allow for enhancement of the platform  This is to inform brokers as to what mortgage products would be most suitable prior to executing the lengthy approval process.
 
 ## Original Architecture
 
-The original architecture is a three tier architecture comprised of web (React), middleware (Spring Boot), and database tiers (MySQL). Future development will be polyglot programming in nature as new hires and outsourced solutions are leveraged with alternative languages such as Node, Python and Go.
+The original architecture is a three tier architecture comprised of web (React), middleware (Spring Boot), and a database tier (MySQL). Future development will be polyglot programming in nature as new hires and outsourced solutions are leveraged with alternative languages such as Node, Python and Go.
 
 ## Customer Challenges and Requests
 
-The customer has identified challenges in supporting 1/ multiple environments, 2/ identification of costs associated with using containers in AWS and on-premises, 3/ and the use of test automation as part of the CI/CD process. 
+The customer has identified challenges in supporting 1/ multiple environments, 2/ identification of costs associated with using containers in AWS and on-premises, 3/ and the desire to DevOps practices in software delivery. 
 
 ## Demonstration Story
 
-The demonstration will focus on the topics discussed in MB2 including multi-cloud support, developer independence, traceability / deployment improvements via CI/CD and security. 
+The demonstration will focus on the topics discussed in prior conversations including security, agility, speed and cost savings. 
 
 
 ### Security
