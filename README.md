@@ -42,7 +42,8 @@ Walk through TCO calculations providing an estimate of On-Premises versus AWS co
 In the beginning of the presentation, the following AWS diagram is presented showing a simpler graphic of the core infrastructure. Ingress into the Octank cloud infrastructure occurs via ingress to publicly exposed Elastic Load Balancers in the public subnets. Traffic is then directed to the Elastic Kubernetes Cluster EC2 Managed Nodes running in private subnets. Security groups control access to the Kubernetes Cluster and Amazon Aurora database. Further security configuration can be performed using Kubernetes, EKS and AWS configurations including Encryption (in-transit / at-rest), access logging, VPC PrivateLink connections to Amazon S3, Amazon ECR and Amazon Cloudwatch.  
 
 
-[Image: octank-example-simple-step-by-step (9).png]
+![Image: octank-example-simple-step-by-step (9).png]/images/arch1.png
+
 *Authentication*
 
 
