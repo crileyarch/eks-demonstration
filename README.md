@@ -1001,7 +1001,7 @@ The above allowed access to the sandbox react application. In order to support t
 
 
 Application |	URL  |	Mapping
--------------------------------
+------------|--------|---------
 React Sandbox |	http://sandbox.demo2company.com	| React Sandbox ELB
 React Testing | http://testing.demo2company.com	| React Testing ELB
 Credit API Sandbox	| http://api.sandbox.credit.demo2company.com |	NodeJS API Sandbox ELB
