@@ -293,7 +293,7 @@ In this wizard the subdomains / domain was entered versus doing a wild card cert
 
 ![image](./images/acm-2.png)
 
-Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
+Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. The helm charts for this demonstration are under: https://github.com/crileyarch/eks-demonstration/tree/master/octank-infrastructure/helm
 
 ```
 #service.yaml
