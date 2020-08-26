@@ -903,7 +903,7 @@ Successfully packaged chart and saved it to: /Users/crileya/Work/MB/MB3/octank-i
 
 This artifact is uploaded to S3 as shown below:
 
-[Image: Screen Shot 2020-08-10 at 9.57.07 AM.png]
+![image](./images/s3bucket-1.png)
 
 Once uploaded, the configuration step consumes the helm chart package and moves to the bake step.
 
