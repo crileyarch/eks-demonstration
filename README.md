@@ -156,12 +156,23 @@ kube-system Active 9m25s
 *Amazon EKS Console*
 
 Once eksctl is complete in creating a cluster, the Amazon EKS console displays the cluster information including the creation of three public subnets, three private subnets, security groups and a Virtual Private Cloud. 
-[Image: Screen Shot 2020-07-15 at 10.22.17 AM.png]Notice in the above diagram that Public access source whitelist allows all traffic (e.g. 0.0.0.0/0). This can be modified by selecting Manage Networking and identifying the sources to public access endpoint as shown below:
-[Image: Screen Shot 2020-07-15 at 10.28.45 AM.png]In addition to networking, the Compute tab displays the node groups, desired size and status. 
-[Image: Screen Shot 2020-07-15 at 10.22.26 AM.png]
+
+![image](./images/eksconsole1.png)
+
+Notice in the above diagram that Public access source whitelist allows all traffic (e.g. 0.0.0.0/0). This can be modified by selecting Manage Networking and identifying the sources to public access endpoint as shown below:
+
+![image](./images/eksconsole2.png)
+
+In addition to networking, the Compute tab displays the node groups, desired size and status.
+
+![image](./images/eksconsole3.png)
+
+
 Selection of the standard-workers group name will provide more specifics on the running nodes as shown below. Notice that Allow remote access to nodes is Disabled. This can be controlled via eksutil. In addition there is an Autoscaling Group that has been created to maintain at least two nodes at all times. The following link provides details on creating autoscaling policies to track CPU and right-size instances  https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html
 
-[Image: Screen Shot 2020-07-15 at 10.32.48 AM.png]*eksctl cluster deletion*
+[Image: Screen Shot 2020-07-15 at 10.32.48 AM.png]
+
+*eksctl cluster deletion*
 
 ```
 $ eksctl delete cluster --name <cluster name>
