@@ -880,11 +880,11 @@ spin-rosco         ClusterIP      10.100.143.38    <none>
 
 Once up and running accessing the Spinnaker UI by accessing the spin-deck-public service. 
 
-[Image: Screen Shot 2020-08-04 at 2.42.19 PM.png]
+![image](./images/spinnaker-home-1.png)
 
 Once the display is available, selecting applications provides a list of available applications by looking a the deployments in Kubernetes:
 
-[Image: Screen Shot 2020-08-04 at 4.12.01 PM.png]
+![image](./images/spinnaker-home-2.png)
 
 *Spinnaker Pipeline*
 
