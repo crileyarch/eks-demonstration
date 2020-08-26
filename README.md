@@ -357,14 +357,22 @@ $ docker push 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2
 Amazon Elastic Container Registry performs a scan of new images to identify Common Vulnerabilities or Exploits (CVE) and reports those per image tag. The image registry represents the private location that Continuous Delivery or developers use to access the appropriate tagged images.
 
 
-[Image: Screen Shot 2020-07-14 at 11.15.56 AM.png]*CVE Scanning (Well Architected Security Pillar)*
+![image](./images/ecr-0.png)
+
+*CVE Scanning (Well Architected Security Pillar)*
 
 New containers are scanned on push into the registry as shown in the following areas and simply displayed under the Vulnerabilities column within the images under a repository. 
 
-[Image: Screen Shot 2020-07-14 at 2.43.35 PM.png]Digging deeper into the Vulnerabilities shows the specific Common Vulnerabilities and Exploits (CVE). CVEs are listed in priority order. 
-[Image: Screen Shot 2020-07-14 at 2.43.40 PM.png]Digging even deeper, links to the specific CVE are provided along with package / library that is impacted.
+![image](./images/ecr-1.png)
 
-[Image: Screen Shot 2020-07-14 at 2.46.45 PM.png]
+Digging deeper into the Vulnerabilities shows the specific Common Vulnerabilities and Exploits (CVE). CVEs are listed in priority order. 
+
+![image](./images/ecr-2.png)
+
+Digging even deeper, links to the specific CVE are provided along with package / library that is impacted.
+
+![image](./images/ecr-3.png)
+
 Time to Market
 
 The next phase is to demonstrate mechanisms to reduce the time it takes to deliver software. Continuous Integration and Continuous Delivery demonstrations will show automation reducing the level of effort and increasing the consistency and traceability of software. 
