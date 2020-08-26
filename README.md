@@ -77,31 +77,43 @@ Show the manifest file and command used to spin up a cluster.
 
 *eksctl cluster creation*
 
-eksctl provides a command line interface to more easily create a Kubernetes cluster running in Amazon EKS. Using a yaml definition stored in Git, a EKS cluster can be created and managed appropriately. The following command line passes in the cluster name, Kubernetes version, AWS region, Kubernetes node details including size and quantity. 
+eksctl provides a command line interface to more easily create a Kubernetes cluster running in Amazon EKS. Using a yaml definition stored in Git, a EKS cluster can be created and managed appropriately. The following command line passes in the cluster name, Kubernetes version, AWS region, Kubernetes node details including size and quantity. This is stored in the octank-infrastructure/aws folder.
 
 
-#### An example of ClusterConfig object using Managed Nodes
+*ClusterConfig object using Managed Nodes*
+
 ```
+# An example of ClusterConfig object using Managed Nodes
+---
     apiVersion: eksctl.io/v1alpha5
     kind: ClusterConfig
     
     metadata:
       name: octank-eks-cluster
       region: us-east-2
+      version: "1.17"
+
     
     managedNodeGroups:
       - name: managed-ng-private
         privateNetworking: true
-        instanceType: m3.medium
+        instanceType: t3.medium
         minSize: 1
-        desiredCapacity: 1
-        maxSize: 4
-        availabilityZones: ["us-east-2a", "us-east-2b"]
+        desiredCapacity: 3
+        maxSize: 6
+        availabilityZones: ["us-east-2a", "us-east-2b", "us-east-2c"]
         volumeSize: 20
         labels: {role: worker}
         tags:
           nodegroup-role: worker
+    cloudWatch:
+      clusterLogging:
+        enableTypes:
+          - "api"
+
 ```
+
+*Create cluster using Manifest*
 
 ```
 $ eksctl create cluster -f octank-managed-node.yaml
