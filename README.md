@@ -335,7 +335,7 @@ Once the above is complete the React application is available at https://sandbox
 
 ![image](./images/https.png)
 
-### Reallocate Teams (developer)
+### Agility (developer)
 
 The next phase is to demonstrate how a developer can easily wrap a React Application as a container and share it with the larger organization. First we utilize Docker installed on Mac or Windows to test container development. 
 
@@ -349,8 +349,6 @@ The next phase is to demonstrate how a developer can easily wrap a React Applica
 $ aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 102239939291.dkr.ecr.us-east-2.amazonaws.com
 $ docker push 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2
 ```
-
-1. Show how ECR scans the deployed artifact.
 
 *Image Registry*
 
@@ -373,11 +371,13 @@ Digging even deeper, links to the specific CVE are provided along with package /
 
 ![image](./images/ecr-3.png)
 
-Time to Market
+### Time to Market
 
 The next phase is to demonstrate mechanisms to reduce the time it takes to deliver software. Continuous Integration and Continuous Delivery demonstrations will show automation reducing the level of effort and increasing the consistency and traceability of software. 
 
-Time to Market (Continuous Integration) 
+![image](./images/speed.png)
+
+#### Continuous Integration
 
 *Source Code Management*
 
