@@ -279,6 +279,58 @@ Completion of the above places an authentication form as shown below that is int
 ![image](./images/amplify-1.png)
 
 
+### Security Part 2: Encryption (operator)
+
+The following link provides details that were employed to get the Load Balancer in EKS to leverage AWS Certificate Manager. Prior to do this work, a DNS Domain needs to be configured in Route53 which is in the Appendix.
+
+https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/
+
+Accessed AWS Certificate Manager and created a Public Certificate. In this wizard the subdomains / domain was entered versus doing a wild card certificate to reduce the attack surface. When completed, ACM places CNAME records in the hosted zone as shown below. 
+
+[Image: Screen Shot 2020-08-12 at 1.53.08 PM.png]
+
+Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
+
+```
+#service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "broker-app-chart.fullname" . }}
+  labels:
+    {{- include "broker-app-chart.labels" . | nindent 4 }}
+  annotations:
+    # Note that the backend talks over HTTP.
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    # TODO: Fill in with the ARN of your certificate.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-2:102239939291:certificate/0a448389-d947-48b3-90f5-f3805fe0316d
+    # Only run SSL on the port named "https" below.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      # targetPort: http
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: https
+  selector:
+    {{- include "broker-app-chart.selectorLabels" . | nindent 4 }}
+
+#values.yaml
+service:
+  type: LoadBalancer
+  port: 443
+  targetPort: 80
+```
+
+This process is repeated for credit and mortgage APIs in a similar fashion and those services are redeployed via Spinnaker. *NOTE: the service port creates a Security Group with that port open for inbound traffic.* 
+
+Once the above is complete the React application is available at https://sandbox.demo2company.com (https://sandbox.demo2company.com/) and https://testing.demo2company.com (https://testing.demo2company.com/).
+
+[Image: Screen Shot 2020-08-12 at 4.45.56 PM.png]
+
+
 ### Reallocate Teams (developer)
 
 The next phase is to demonstrate how a developer can easily wrap a React Application as a container and share it with the larger organization. First we utilize Docker installed on Mac or Windows to test container development. 
@@ -895,7 +947,31 @@ https://itnext.io/aws-cognito-example-using-react-ui-and-node-js-rest-apis-part-
 https://itnext.io/aws-cognito-example-using-react-ui-and-node-js-rest-apis-part-3-jwt-secured-rest-apis-e56d336ce306
 https://itnext.io/using-letsencrypt-ssl-certificates-in-aws-certificate-manager-c2bc3c6ae10
 
-#### GoDaddy / Route53 / ELB configuration
+#### Cognito Integration with React
+
+https://github.com/vbudilov/reactjs-cognito-starter
+
+### Reducing Costs
+
+Leveraged the AWS TCO Calculator and generated the following reports to provide an estimate of VMWare costs versus AWS.
+
+octank-tco-2020.pdf (https://quip-amazon.com/-/blob/DBA9AAveLgG/cHJNQ85k1xCjcNOTgbDsmg?name=octank-tco-2020.pdf) 
+
+
+## References
+
+1. Spring Boot on Kubernetes: https://blog.nebrass.fr/playing-with-spring-boot-on-kubernetes/
+2. Kubernetes DNS: https://medium.com/kubernetes-tutorials/kubernetes-dns-for-services-and-pods-664804211501
+3. Secrets Manager POC with Kubernetes: https://aws.amazon.com/ko/blogs/containers/aws-secrets-controller-poc/
+4. Spinnaker Reference Architecture: https://spinnaker.io/reference/architecture/
+5. CodeBuild: https://aws.amazon.com/blogs/devops/build-a-continuous-delivery-pipeline-for-your-container-images-with-amazon-ecr-as-source/
+6. React using ConfigMap: https://medium.com/@dekauliya/adding-external-config-to-static-react-app-with-docker-and-kubernetes-in-ci-cd-96e988561096
+7. Active Directory integration with Amazon Cognito: https://www.youtube.com/watch?v=QHoOChLVv_k
+
+## Appendix
+
+### DNS Configuration
+
 
 https://lobster1234.github.io/2017/05/10/migrating-a-domain-to-amazon-route53/
 
@@ -1021,73 +1097,6 @@ https://aws.amazon.com/blogs/security/easier-certificate-validation-using-dns-wi
 
 [Image: Screen Shot 2020-08-13 at 3.44.35 PM.png]
 
-#### Encryption for Mortgage Broker Application
-
-https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/
-
-Accessed AWS Certificate Manager and created a Public Certificate. In this wizard the subdomains / domain was entered versus doing a wild card certificate to reduce the attack surface. When completed, ACM places CNAME records in the hosted zone as shown below. 
-
-[Image: Screen Shot 2020-08-12 at 1.53.08 PM.png]
-
-Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
-
-```
-#service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "broker-app-chart.fullname" . }}
-  labels:
-    {{- include "broker-app-chart.labels" . | nindent 4 }}
-  annotations:
-    # Note that the backend talks over HTTP.
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-    # TODO: Fill in with the ARN of your certificate.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-2:102239939291:certificate/0a448389-d947-48b3-90f5-f3805fe0316d
-    # Only run SSL on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      # targetPort: http
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: TCP
-      name: https
-  selector:
-    {{- include "broker-app-chart.selectorLabels" . | nindent 4 }}
-
-#values.yaml
-service:
-  type: LoadBalancer
-  port: 443
-  targetPort: 80
-```
-
-This process is repeated for credit and mortgage APIs in a similar fashion and those services are redeployed via Spinnaker. *NOTE: the service port creates a Security Group with that port open for inbound traffic.* 
-
-Once the above is complete the React application is available at https://sandbox.demo2company.com (https://sandbox.demo2company.com/) and https://testing.demo2company.com (https://testing.demo2company.com/).
-
-[Image: Screen Shot 2020-08-12 at 4.45.56 PM.png]
-
-#### Cognito Integration with React
-
-https://github.com/vbudilov/reactjs-cognito-starter
-
-### Reducing Costs
-
-Leveraged the AWS TCO Calculator and generated the following reports to provide an estimate of VMWare costs versus AWS.
-
-octank-tco-2020.pdf (https://quip-amazon.com/-/blob/DBA9AAveLgG/cHJNQ85k1xCjcNOTgbDsmg?name=octank-tco-2020.pdf) 
 
 
-## References
-
-1. Spring Boot on Kubernetes: https://blog.nebrass.fr/playing-with-spring-boot-on-kubernetes/
-2. Kubernetes DNS: https://medium.com/kubernetes-tutorials/kubernetes-dns-for-services-and-pods-664804211501
-3. Secrets Manager POC with Kubernetes: https://aws.amazon.com/ko/blogs/containers/aws-secrets-controller-poc/
-4. Spinnaker Reference Architecture: https://spinnaker.io/reference/architecture/
-5. CodeBuild: https://aws.amazon.com/blogs/devops/build-a-continuous-delivery-pipeline-for-your-container-images-with-amazon-ecr-as-source/
-6. React using ConfigMap: https://medium.com/@dekauliya/adding-external-config-to-static-react-app-with-docker-and-kubernetes-in-ci-cd-96e988561096
-7. Active Directory integration with Amazon Cognito: https://www.youtube.com/watch?v=QHoOChLVv_k
 
