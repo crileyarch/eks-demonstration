@@ -177,7 +177,7 @@ Notice in the above diagram that Public access source whitelist allows all traff
 
 Selection of the standard-workers group name will provide more specifics on the running nodes as shown below. Notice that Allow remote access to nodes is Disabled. This can be controlled via eksutil. In addition there is an Autoscaling Group that has been created to maintain at least two nodes at all times. The following link provides details on creating autoscaling policies to track CPU and right-size instances  https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html
 
-[Image: Screen Shot 2020-07-15 at 10.32.48 AM.png]
+![image](./images/eksconsole-5.png)
 
 *eksctl cluster deletion*
 
