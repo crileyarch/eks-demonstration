@@ -2,15 +2,15 @@
 
 ## Business Problem
 
-Customer is migrating core legacy applications to Amazon Web Services (AWS). One application, the mortgage broker application, provides rates to the broker and will be enhanced with FICO details for a customer. This application needs to be migrated to AWS but done in such a fashion to allow for enhancement of the platform  This is to inform brokers as to what mortgage products would be most suitable prior to executing the lengthy approval process.
+Customer is migrating core legacy applications to Amazon Web Services (AWS). One application, the mortgage broker application, provides rates to the broker and will be enhanced with FICO details for a customer. This application needs to be migrated to AWS but done in such a fashion to allow for enhancement of the platform.
 
 ## Original Architecture
 
 The original architecture is a three tier architecture comprised of web (React), middleware (Spring Boot), and a database tier (MySQL). Future development will be polyglot programming in nature as new hires and outsourced solutions are leveraged with alternative languages such as Node, Python and Go.
 
-## Customer Challenges and Requests
+## Customer Requests
 
-The customer has identified challenges in supporting 1/ multiple environments, 2/ identification of costs associated with using containers in AWS and on-premises, 3/ and the desire to DevOps practices in software delivery. 
+The customer has identified a desire to improve 1/ security, 2/ reduce level of effort to provision new hardware and environments, 3/ and the desire to implement DevOps practices in software delivery. 
 
 ## Demonstration Story
 
@@ -988,15 +988,15 @@ https://lobster1234.github.io/2017/05/10/migrating-a-domain-to-amazon-route53/
 
 Purchased domain from GoDaddy with the following DNS properties.
 
-[Image: Screen Shot 2020-08-12 at 11.49.17 AM.png]
+![image](./images/godaddy-1.png)
 
 Created a Hosted Zone with Public Domain under Route 53. The following image shows the demo2company.com (http://demo2company.com/) details below.
 
-[Image: Screen Shot 2020-08-12 at 11.54.28 AM.png]
+![image](./images/route53-namespaces.png)
 
 Within GoDaddy DNS Administration, export the Zone details (e.g. Export Zone File (Unix)) for import into Route53. This is available as shown below:
 
-[Image: Screen Shot 2020-08-12 at 11.57.00 AM.png]
+![image](./images/godaddy-2.png)
 
 Export of the file (UNIX) was done and it create the following details:
 
@@ -1060,29 +1060,29 @@ _domainconnect    3600     IN     CNAME    _domainconnect.gd.domaincontrol.com.
 @    3600     IN     NS    ns12.domaincontrol.com.
 ```
 
-[Image: Screen Shot 2020-08-12 at 11.59.02 AM.png]
+![image](./images/route53-import.png)
 
 Entering the file as-is into the editor returned errors that the SOA entry already existed. Selectively only the CNAME record entry was entered only and it successfully displayed in Route53.
 
 The next step was to update the NS records at GoDaddy and replace the current GoDaddy Nameservers with Route53. 
 
-[Image: Screen Shot 2020-08-12 at 12.05.37 PM.png]
+![image](./images/godaddy-3.png)
 
 Select the *Enter my own nameservers(advanced).*
 
-[Image: Screen Shot 2020-08-12 at 12.05.20 PM.png]
+![image](./images/godaddy-4.png)
 
 Select Change to update the Nameservers as shown below. Using the Route53 console, the NS entries are copied one by one to the GoDaddy console. Selecting Save soon after domain creation returned errors. Waiting an additional 15 minutes resolved this.
 
-[Image: Screen Shot 2020-08-12 at 12.06.59 PM.png]
+![image](./images/godaddy-5.png)
 
 Once the values have been updated, GoDaddy shows the use of the custom nameservers. 
 
-[Image: Screen Shot 2020-08-12 at 12.25.20 PM.png]
+![image](./images/godaddy-6.png)
 
 Once the namespaces are updated, we need to add an ALIAS record in Route53 to route domain traffic to an ELB running in the region where the Kubernetes cluster / Classic Load Balancer is running. One will be for Sandbox and the other for Testing. Create an additional Record of type ALIAS, in us-east-2 pointing at the React Sandbox Loadbalancer. Access to that value can be done using “kubectl get svc -n octank-sandbox” or using Spinnaker Infrastructure console for the Broker application. Below is the configuration for sandbox.
 
-[Image: Screen Shot 2020-08-12 at 12.44.57 PM.png]
+![image](./images/route53-alias-2.png)
 
 The above allowed access to the sandbox react application. In order to support the multiple environments the following URLs were created and mapped as A Records to create sub-domains under demo2company.com. 
 
@@ -1096,17 +1096,17 @@ Credit API Testing	| http://api.testing.credit.demo2company.com | NodeJS API Tes
 Mortgage API Sandbox | http://api.sandbox.mortgage.demo2company.com	 | Spring Boot API Sandbox ELB
 Mortgage API Testing | http://api.testing.mortgage.demo2company.com	 | Spring Boot API Testing ELB
 
-[Image: Screen Shot 2020-08-12 at 1.41.10 PM.png]
+![image](./images/route53-alias.png)
 
 Returning to ACM, the certificate is shown as below with the appropriate details.
 
-[Image: Screen Shot 2020-08-12 at 1.55.09 PM.png]
+![image](./images/route53-cname.png)
 
 This creates a series of CNAME entries in Route53 for DNS validation and automated certificate rotation. The following blog link discusses the use of this for validation:
 
 https://aws.amazon.com/blogs/security/easier-certificate-validation-using-dns-with-aws-certificate-manager/
 
-[Image: Screen Shot 2020-08-13 at 3.44.35 PM.png]
+![image](./images/route53-cname.png)
 
 
 
