@@ -332,8 +332,8 @@ This process is repeated for credit and mortgage APIs in a similar fashion and t
 
 Once the above is complete the React application is available at https://sandbox.demo2company.com  and https://testing.demo2company.com.
 
-[Image: Screen Shot 2020-08-12 at 4.45.56 PM.png]
 
+![image](./images/https.png)
 
 ### Reallocate Teams (developer)
 
