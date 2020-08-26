@@ -237,6 +237,47 @@ $ kubectl version
 Client Version: version.Info{Major:"1", Minor:"17+", GitVersion:"v1.17.7-eks-bffbac", GitCommit:"bffbacfd13a805a12d10ccc0ca26205ae1ca76e9", GitTreeState:"clean", BuildDate:"2020-07-08T18:30:00Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"darwin/amd64"}
 Server Version: version.Info{Major:"1", Minor:"17+", GitVersion:"v1.17.6-eks-4e7f64", GitCommit:"4e7f642f9f4cbb3c39a4fc6ee84fe341a8ade94c", GitTreeState:"clean", BuildDate:"2020-06-11T13:55:35Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
 ```
+### Security (developer)
+
+The base application does not implement authentication or privacy. This section details the addition of authentication to the React broker-app. AWS Amplify provides details on how to integrate into a React application along with using the amplify command line to standup a Amazon Cognito User Pool. 
+
+https://docs.amplify.aws/start/getting-started/auth/q/integration/react
+
+For the React application in broker-app, the aws-export.js file gets created in the src folder. In addition the following code updates were made once npm installation of amplify and amplify react is performed in the link above. In App.js, the aws-amplify/ui-react library is imported, AmplifySignOut added as a component in the container and the export updated with a higher order component (withAuthenticator(App)). 
+
+```
+import React from 'react';
+import Header from './Header';
+import RatesList from './RatesList';
+import CreditCheck from './CreditCheck';
+import DisplayEnv from './DisplayEnv';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+
+
+const App = () => {
+    return (
+    <div className="container">
+        <AmplifySignOut />
+        <br />
+        <Header />
+        <br />
+        <RatesList />
+        <br />
+        <CreditCheck />
+        <br />
+        <DisplayEnv />
+    </div>
+    );
+}
+
+export default withAuthenticator(App);
+```
+
+Completion of the above places an authentication form as shown below that is integrated with the Cognito User Pool identified in the aws-exports.js. 
+
+
+![image](./images/amplify-1.png)
+
 
 ### Reallocate Teams (developer)
 
