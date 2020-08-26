@@ -140,32 +140,39 @@ kubectl provides a command line interface to communicate with the Kubernetes clu
 
 ```
 $ kubectl get nodes
-NAME STATUS ROLES AGE VERSION
-ip-192-168-26-193.us-east-2.compute.internal Ready <none> 4m16s v1.17.7-eks-bffbac
-ip-192-168-51-163.us-east-2.compute.internal Ready <none> 3m21s v1.17.7-eks-bffbac
-3c22fb12e21b:~ crileya$ kubectl get pods
-No resources found in default namespace.
-3c22fb12e21b:~ crileya$ kubectl get namespaces
-NAME STATUS AGE
-default Active 9m23s
-kube-node-lease Active 9m25s
-kube-public Active 9m25s
-kube-system Active 9m25s
+NAME                                            STATUS   ROLES    AGE   VERSION
+ip-192-168-124-237.us-east-2.compute.internal   Ready    <none>   33d   v1.17.7-eks-bffbac
+ip-192-168-153-127.us-east-2.compute.internal   Ready    <none>   33d   v1.17.7-eks-bffbac
+ip-192-168-175-74.us-east-2.compute.internal    Ready    <none>   33d   v1.17.7-eks-bffbac
+$ kubectl get namespaces
+NAME                STATUS   AGE
+amazon-cloudwatch   Active   25d
+default             Active   33d
+kube-node-lease     Active   33d
+kube-public         Active   33d
+kube-system         Active   33d
+octank-sandbox      Active   33d
+octank-testing      Active   25d
+spinnaker           Active   21d
 ```
 
 *Amazon EKS Console*
 
-Once eksctl is complete in creating a cluster, the Amazon EKS console displays the cluster information including the creation of three public subnets, three private subnets, security groups and a Virtual Private Cloud. 
+Once eksctl is complete in creating a cluster, the Amazon EKS console displays the cluster.
 
-![image](./images/eksconsole1.png)
+![image](./images/eksconsole-1.png)
+
+Detailed information includes information around endpoints for the cluster control plane.
+
+![image](./images/eksconsole-2.png)
+
+In addition, the Compute tab displays the node groups, desired size and status.
+
+![image](./images/eksconsole-3.png)
 
 Notice in the above diagram that Public access source whitelist allows all traffic (e.g. 0.0.0.0/0). This can be modified by selecting Manage Networking and identifying the sources to public access endpoint as shown below:
 
-![image](./images/eksconsole2.png)
-
-In addition to networking, the Compute tab displays the node groups, desired size and status.
-
-![image](./images/eksconsole3.png)
+![image](./images/eksconsole-4.png)
 
 
 Selection of the standard-workers group name will provide more specifics on the running nodes as shown below. Notice that Allow remote access to nodes is Disabled. This can be controlled via eksutil. In addition there is an Autoscaling Group that has been created to maintain at least two nodes at all times. The following link provides details on creating autoscaling policies to track CPU and right-size instances  https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html
@@ -197,17 +204,28 @@ Resolution: Run the following command to refresh the .kube/config to point to a 
 ```
 $ kubectl version -o json
 {
- "clientVersion": {
- "major": "1",
- "minor": "17+",
- "gitVersion": "v1.17.7-eks-bffbac",
- "gitCommit": "bffbacfd13a805a12d10ccc0ca26205ae1ca76e9",
- "gitTreeState": "clean",
- "buildDate": "2020-07-08T18:30:00Z",
- "goVersion": "go1.13.9",
- "compiler": "gc",
- "platform": "darwin/amd64"
- }
+  "clientVersion": {
+    "major": "1",
+    "minor": "17+",
+    "gitVersion": "v1.17.7-eks-bffbac",
+    "gitCommit": "bffbacfd13a805a12d10ccc0ca26205ae1ca76e9",
+    "gitTreeState": "clean",
+    "buildDate": "2020-07-08T18:30:00Z",
+    "goVersion": "go1.13.9",
+    "compiler": "gc",
+    "platform": "darwin/amd64"
+  },
+  "serverVersion": {
+    "major": "1",
+    "minor": "17+",
+    "gitVersion": "v1.17.6-eks-4e7f64",
+    "gitCommit": "4e7f642f9f4cbb3c39a4fc6ee84fe341a8ade94c",
+    "gitTreeState": "clean",
+    "buildDate": "2020-06-11T13:55:35Z",
+    "goVersion": "go1.13.9",
+    "compiler": "gc",
+    "platform": "linux/amd64"
+  }
 }
 ```
 
