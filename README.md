@@ -285,9 +285,13 @@ The following link provides details that were employed to get the Load Balancer 
 
 https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/
 
-Accessed AWS Certificate Manager and created a Public Certificate. In this wizard the subdomains / domain was entered versus doing a wild card certificate to reduce the attack surface. When completed, ACM places CNAME records in the hosted zone as shown below. 
+Accessed AWS Certificate Manager and created a Public Certificate. 
 
-[Image: Screen Shot 2020-08-12 at 1.53.08 PM.png]
+![image](./images/acm-1.png)
+
+In this wizard the subdomains / domain was entered versus doing a wild card certificate to reduce the attack surface. When completed, ACM places CNAME records in the hosted zone as shown below. 
+
+![image](./images/acm-2.png)
 
 Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
 
@@ -326,7 +330,7 @@ service:
 
 This process is repeated for credit and mortgage APIs in a similar fashion and those services are redeployed via Spinnaker. *NOTE: the service port creates a Security Group with that port open for inbound traffic.* 
 
-Once the above is complete the React application is available at https://sandbox.demo2company.com (https://sandbox.demo2company.com/) and https://testing.demo2company.com (https://testing.demo2company.com/).
+Once the above is complete the React application is available at https://sandbox.demo2company.com  and https://testing.demo2company.com.
 
 [Image: Screen Shot 2020-08-12 at 4.45.56 PM.png]
 
