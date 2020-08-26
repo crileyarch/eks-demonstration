@@ -81,7 +81,7 @@ eksctl provides a command line interface to more easily create a Kubernetes clus
 
 
 #### An example of ClusterConfig object using Managed Nodes
----
+```
     apiVersion: eksctl.io/v1alpha5
     kind: ClusterConfig
     
@@ -101,8 +101,9 @@ eksctl provides a command line interface to more easily create a Kubernetes clus
         labels: {role: worker}
         tags:
           nodegroup-role: worker
+```
 
----
+```
 $ eksctl create cluster -f octank-managed-node.yaml
 [ℹ] eksctl version 0.24.0-rc.0
 [ℹ] using region us-east-2
@@ -122,14 +123,16 @@ $ eksctl create cluster -f octank-managed-node.yaml
 [ℹ] 2 sequential tasks: { create cluster control plane "octank-eks-cluster", 2 sequential sub-tasks: { no tasks, create managed nodegroup "managed-ng-private" } }
 [ℹ] building cluster stack "eksctl-octank-eks-cluster-cluster"
 [ℹ] deploying stack "eksctl-octank-eks-cluster-cluster"
+```
 
 
 *Scaling nodes using eksctl*
 
----
+```
 $ eksctl scale nodegroup --cluster=octank-eks-cluster --nodes=3 managed-ng-private
 [ℹ] scaling nodegroup stack "eksctl-octank-eks-cluster-nodegroup-managed-ng-private" in cluster eksctl-octank-eks-cluster-cluster
 [ℹ] scaling nodegroup, desired capacity from 1 to 3
+```
 
 *kubectl*
 
