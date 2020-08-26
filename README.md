@@ -383,7 +383,7 @@ Digging even deeper, links to the specific CVE are provided along with package /
 
 ![image](./images/ecr-3.png)
 
-### Time to Market
+### Speed / Continuous Integration
 
 The next phase is to demonstrate mechanisms to reduce the time it takes to deliver software. Continuous Integration and Continuous Delivery demonstrations will show automation reducing the level of effort and increasing the consistency and traceability of software. 
 
@@ -446,7 +446,7 @@ The automated build leverages AWS CodePipeline, AWS CodeCommit and AWS CodeBuild
 
 Each project leverages a suitable test automation framework for Unit Testing (e.g. JUnit, Jest) and this test is executed by the package management solution (e.g. maven, npm) during the build process.
 
-### Speed
+### Speed / Continuous Delivery
 
 Continuous Delivery in this demonstration will leverage Spinnaker (https://spinnaker.io/), a Netflix OSS project. 
 
@@ -579,6 +579,28 @@ Events:
 $ helm uninstall mortgage-api
 release "mortgage-api" uninstalled
 ```
+
+### Speed / Multiple Environments
+
+A challenge for the customer is the ability to easily standup / configure separate environments. This demo accomplishes this by considering segregation of environments via Namespaces, configuration (e.g. URL, connection strings etc.) / secrets management and versions of apps / APIs. Versions of apps / APIs is done via the container tag and Helm packaging of those images. 
+
+*Namespaces*
+
+Kubernetes namespaces and clusters provide two mechanisms for environments. One is namespaces that allows you to take a kubernetes cluster and break out a segregated space for execution. In this example we have Sandbox and Testing.
+
+![image](./images/env-1.png)
+
+*Configuration and Secrets*
+
+Within the namespace, ConfigMap and Secrets provides a means to inject configuration data (e.g. URLs) and secrets (e.g. username / passwords) into Pods that are executed. 
+
+![image](./images/env-2.png)
+
+*Data Sync*
+
+The last item in the environment demo is the use of different Aurora Snapshots. Snapshots create a copy of the data and schema of an executing database. These snapshots can be versioned and identified for specific environments to provide the right data and the right time.
+
+![image](./images/env-3.png)
 
 *Kubernetes ConfigMap and Secrets*
 
