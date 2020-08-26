@@ -385,7 +385,7 @@ Each project is stored within CodeCommit separately providing support for Git br
 
 Created CodeCommit repositories for both UI and two APIs.
 
-[Image: Screen Shot 2020-07-14 at 11.11.38 AM.png]
+![image](./images/codecommit-1.png)
 
 *Application Overview*
 
@@ -427,7 +427,8 @@ The credit API is a NodeJS based application. The core components are described 
 
 The automated build leverages AWS CodePipeline, AWS CodeCommit and AWS CodeBuild to take changes to the source branch, execute tests, perform the Container Build and push the resulting image to Amazon ECR. 
 
-[Image: Screen Shot 2020-07-14 at 11.16.23 AM.png]
+
+![image](./images/codebuild-1.png)
 
 *Test Automation*
 
