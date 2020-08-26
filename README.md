@@ -138,7 +138,8 @@ $ eksctl scale nodegroup --cluster=octank-eks-cluster --nodes=3 managed-ng-priva
 
 kubectl provides a command line interface to communicate with the Kubernetes cluster by referencing the .kube/config file created by eksctl in the previous step. 
 
-`$ kubectl get nodes
+```
+$ kubectl get nodes
 NAME STATUS ROLES AGE VERSION
 ip-192-168-26-193.us-east-2.compute.internal Ready <none> 4m16s v1.17.7-eks-bffbac
 ip-192-168-51-163.us-east-2.compute.internal Ready <none> 3m21s v1.17.7-eks-bffbac
@@ -149,7 +150,8 @@ NAME STATUS AGE
 default Active 9m23s
 kube-node-lease Active 9m25s
 kube-public Active 9m25s
-kube-system Active 9m25s`
+kube-system Active 9m25s
+```
 
 *Amazon EKS Console*
 
@@ -161,7 +163,8 @@ Selection of the standard-workers group name will provide more specifics on the 
 
 [Image: Screen Shot 2020-07-15 at 10.32.48 AM.png]*eksctl cluster deletion*
 
-`$ eksctl delete cluster --name <cluster name>
+```
+$ eksctl delete cluster --name <cluster name>
 [ℹ] eksctl version 0.24.0-rc.0
 [ℹ] using region us-east-2
 [ℹ] deleting EKS cluster "prod"
@@ -172,14 +175,16 @@ Selection of the standard-workers group name will provide more specifics on the 
 [ℹ] will delete stack "eksctl-prod-nodegroup-standard-workers"
 [ℹ] waiting for stack "eksctl-prod-nodegroup-standard-workers" to get deleted
 [ℹ] will delete stack "eksctl-prod-cluster"
-[✔] all cluster resources were deleted`
+[✔] all cluster resources were deleted
+```
 
 *EKS Connection Issues*
 
 Error: EKS connection failure: The connection to the server localhost:8080 was refused - did you specify the right host or port?
 Resolution: Run the following command to refresh the .kube/config to point to a running cluster
 
-`$ kubectl version -o json
+```
+$ kubectl version -o json
 {
  "clientVersion": {
  "major": "1",
@@ -192,14 +197,17 @@ Resolution: Run the following command to refresh the .kube/config to point to a 
  "compiler": "gc",
  "platform": "darwin/amd64"
  }
-}`
+}
+```
 
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
 
-`$ aws eks --region us-east-2 update-kubeconfig --name octank-eks-cluster
+```
+$ aws eks --region us-east-2 update-kubeconfig --name octank-eks-cluster
 $ kubectl version
 Client Version: version.Info{Major:"1", Minor:"17+", GitVersion:"v1.17.7-eks-bffbac", GitCommit:"bffbacfd13a805a12d10ccc0ca26205ae1ca76e9", GitTreeState:"clean", BuildDate:"2020-07-08T18:30:00Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"darwin/amd64"}
-Server Version: version.Info{Major:"1", Minor:"17+", GitVersion:"v1.17.6-eks-4e7f64", GitCommit:"4e7f642f9f4cbb3c39a4fc6ee84fe341a8ade94c", GitTreeState:"clean", BuildDate:"2020-06-11T13:55:35Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}`
+Server Version: version.Info{Major:"1", Minor:"17+", GitVersion:"v1.17.6-eks-4e7f64", GitCommit:"4e7f642f9f4cbb3c39a4fc6ee84fe341a8ade94c", GitTreeState:"clean", BuildDate:"2020-06-11T13:55:35Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
+```
 
 ### Reallocate Teams (developer)
 
@@ -211,8 +219,10 @@ The next phase is to demonstrate how a developer can easily wrap a React Applica
 3. Use “docker build -t 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2 .”
 4. Select the ECR push example to walk through publishing.
 
-`$ aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 102239939291.dkr.ecr.us-east-2.amazonaws.com
-$ docker push 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2`
+```
+$ aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 102239939291.dkr.ecr.us-east-2.amazonaws.com
+$ docker push 102239939291.dkr.ecr.us-east-2.amazonaws.com/broker-app:0.0.2
+```
 
 1. Show how ECR scans the deployed artifact.
 
@@ -294,29 +304,32 @@ Continuous Delivery in this demonstration will leverage Spinnaker (https://spinn
 Once the K8S cluster is running, each containerized application / API can use Helm 3 to define the required Kubernetes manifests / objects.
 
 
-`$ helm create mortgage-api-chart
-Creating mortgage-api-chart`
+```
+$ helm create mortgage-api-chart
+Creating mortgage-api-chart
+```
 
 Once the chart is created, the developer access the values.yaml under the mortgage-api-chart directory and changes the following values to specify the ECR Repository, image name and tag:
 
----
+```
 image:
   repository: 102239939291.dkr.ecr.us-east-2.amazonaws.com/octank/mortgage-api
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
-
+```
 
 In addition a load balancer is required to bridge public traffic to the EKS nodes running in the Private Subnets. 
 
----
+```
 service:
  type: LoadBalancer
  port: 8080
+```
 
 Finally the health / readiness checks need to be updated to allow the Load Balancer to bring the application into service. This is located under the mortgage-api-chart/template/deployment.yaml . This file is updated to change the containerPort which is listening on 8080 and the path from / to /rates.
 
----
+```
 ports:
             - name: http
               containerPort: 8080
@@ -329,10 +342,11 @@ ports:
             httpGet:
               path: /rates
               port: http
+```
 
 Once these two edits are complete, we can install the chart into EKS. 
 
----
+```
 $ helm install mortgage-api mortgage-api-chart
 NAME: mortgage-api
 LAST DEPLOYED: Wed Jul 22 14:23:34 2020
@@ -347,9 +361,10 @@ NOTES:
   echo http://$SERVICE_IP:8080
 
 Once the above is complete, the operator can use kubectl to confirm the service is running and dig deeper by using kubectl get pods <podname>. 
+```
 
-
-`$ kubectl get pods
+```
+$ kubectl get pods
 NAME                                               READY   STATUS    RESTARTS   AGE
 mortgage-api-mortgage-api-chart-7cb65f8bcf-wzdxm   1/1     Running   0          60s
 3c22fb12e21b:mortgage-api crileya$ kubectl describe pods mortgage-api-mortgage-api-chart-7cb65f8bcf-wzdxm
@@ -404,12 +419,15 @@ Events:
   Normal  Scheduled  78s   default-scheduler                                       Successfully assigned default/mortgage-api-mortgage-api-chart-7cb65f8bcf-wzdxm to ip-192-168-148-159.us-east-2.compute.internal
   Normal  Pulled     77s   kubelet, ip-192-168-148-159.us-east-2.compute.internal  Container image "102239939291.dkr.ecr.us-east-2.amazonaws.com/octank/mortgage-api:0.0.1" already present on machine
   Normal  Created    77s   kubelet, ip-192-168-148-159.us-east-2.compute.internal  Created container mortgage-api-chart
-  Normal  Started    77s   kubelet, ip-192-168-148-159.us-east-2.compute.internal  Started container mortgage-api-chart`
+  Normal  Started    77s   kubelet, ip-192-168-148-159.us-east-2.compute.internal  Started container mortgage-api-chart
+```
 
 *Helm Cleanup*
 
-`$ helm uninstall mortgage-api
-release "mortgage-api" uninstalled`
+```
+$ helm uninstall mortgage-api
+release "mortgage-api" uninstalled
+```
 
 *Kubernetes ConfigMap and Secrets*
 
@@ -420,18 +438,22 @@ To support multiple environments and simplify delivery, applications should be p
 First we parameterize the data that needs to be injected into the Pods via ConfigMap or Secret definitions.
 
 *#Amazon Aurora
-`spring.datasource.url=jdbc:mysql://${AURORA_SERVICE}:3306/${AURORA_DB}
+```
+spring.datasource.url=jdbc:mysql://${AURORA_SERVICE}:3306/${AURORA_DB}
 spring.datasource.username=${AURORA_USERNAME}
 spring.datasource.password=${AURORA_PASSWORD}
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=none
 spring.jpa.generate-ddl=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect`
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+```
 
 To test locally we can set the environment variable SPRING_APPLICATION_JSON with the variables above as shown below:
 
 
-`export SPRING_APPLICATION_JSON='{"AURORA_SERVICE":"localhost","AURORA_DB":"rates","AURORA_USERNAME":"root","AURORA_PASSWORD":"my-secret-pw"}'`
+```
+export SPRING_APPLICATION_JSON='{"AURORA_SERVICE":"localhost","AURORA_DB":"rates","AURORA_USERNAME":"root","AURORA_PASSWORD":"my-secret-pw"}
+```
 
 
 This allows us to test the parameterization of the application.properties and also allow a maven package to be executed resulting in the jar file needed by Docker. For the above, a local MySQL instance is spun up in Docker locally. 
@@ -439,7 +461,8 @@ This allows us to test the parameterization of the application.properties and al
 Second we create the ConfigMap definition via kubectl so that it exists within Kubernetes and is stored in etcd.
 
 
-`$ kubectl create configmap aurora-config \
+```
+$ kubectl create configmap aurora-config \
     --from-literal=aurora.service=<aurora url> \
     --from-literal=aurora.db=rates
 $ kubectl describe configmap aurora-config
@@ -456,23 +479,27 @@ rates
 aurora.service:
 ----
 mortgage-api.xxx.us-east-2.rds.amazonaws.com
-Events: <none>`
+Events: <none>
+```
 
 Or we can define a ConfigMap object instead for Infrastructure as Code 
 
 
-`apiVersion: v1
+```
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aurora-config
 data:
   # property-like keys; each key maps to a simple value
   aurora.db: "rates"
-  aurora.service: "mortgage-api.sandbox.us-east-2.rds.amazonaws.com"`
+  aurora.service: "mortgage-api.sandbox.us-east-2.rds.amazonaws.com"
+```
 
 Third we create the Secret definition via kubectl so that it exists within Kubernetes and is stored in etcd.
 
-`$ kubectl create secret generic db-security \
+```
+$ kubectl create secret generic db-security \
     --from-literal=db.user.name=someuser \
     --from-literal=db.user.password=somepassword
 $ kubectl describe secret db-security
@@ -486,24 +513,28 @@ Type: Opaque
 Data
 ====
 db.user.name: 16 bytes
-db.user.password: 28 bytes`
+db.user.password: 28 bytes
+```
 
 Or we can create a Secret object instead (note the user/password fields are base64 encoded)
 
-`apiVersion: v1
+```
+apiVersion: v1
 kind: Secret
 metadata:
   name: db-security
 type: Opaque
 data:
-  db.user.password: c29tZStwYXNzd29yZAo=
-  db.user.name: bXlfc3FsX2FkbWluCg==`
+  db.user.password: cxxtZStwYXNzd29yZAo=
+  db.user.name: bxxx3FsX2FkbWluCg==
+```
 
 
 Within the Helm chart, we modify the templates/deployment.yaml to add an environment section as shown below which then binds the ConfigMap and Secrets object. 
 
 
-`...
+```
+...
 containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -532,82 +563,95 @@ containers:
                   name: aurora-security
                   *key**: db.user.password*
           ports:
-...`
+...
+```
 
 *Credit API Configuration*
 
 First we set environment variables for the environment and user/password details
 
-`export AURORA_USERNAME=xxx
+```
+export AURORA_USERNAME=xxx
 export AURORA_PASSWORD=xxx
 export AURORA_SERVICE=mortgage-api.xxx.rds.amazonaws.com
-export AURORA_DB_CREDIT=credit`
+export AURORA_DB_CREDIT=credit
+```
 
 Second the NodeJS code leverages the config npm dependency to configure environments and access variables from within the codebase or through local environment variables (mapping is stored in custom-environment-variables.json under config/). The following shows the mapping of the db_user and db_password environment variables to user and password.
 
 
-`{
+```
+{
     "user": "AURORA_USERNAME",
     "password": "AURORA_PASSWORD",
     "url": "AURORA_SERVICE",
     "database": "AURORA_DB_CREDIT"
-}`
+}
+```
 
 The mysql connection object then replaces values with those mappings so user and password will refer to the environment variables.  whereas the url and database are found in the development.json.
 
 
-`var connection = mysql.createConnection({
+```
+var connection = mysql.createConnection({
     host     : config.get('url'),
     user     : config.get('user'),
     password : config.get('password'),
     database : config.get('database')
-});`
+});
+```
 
 This information is then mapped to Deployment, ConfigMap and Secret definitions for Kubernetes. 
 
-
-        `env:
-            - name: AURORA_DB_CREDIT
-              valueFrom:
-                configMapKeyRef:
-                  name: aurora-config
-                  key: aurora.db.credit
-            - name: AURORA_SERVICE
-              valueFrom:
-                configMapKeyRef:
-                  name: aurora-config
-                  key: aurora.db.service
-            - name: AURORA_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: aurora-security
-                  key: db.user.name
-            - name: AURORA_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: aurora-security
-                  key: db.user.password`
+```
+env:
+- name: AURORA_DB_CREDIT
+  valueFrom:
+    configMapKeyRef:
+       name: aurora-config
+       key: aurora.db.credit
+- name: AURORA_SERVICE
+  valueFrom:
+    configMapKeyRef:
+       name: aurora-config
+       key: aurora.db.service
+- name: AURORA_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: aurora-security
+      key: db.user.name
+- name: AURORA_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: aurora-security
+      key: db.user.password
+```
 
 *Broker Application*
 
 The broker application requires a different approach when parameterizing values. React in its default form compiles configuration details during the build. To resolve this a configuration file is articulated in the index.html file via the following entry. This allows the file to be replaced / externalized in Kubernetes.
 
 
-`<script type="text/javascript" src="%PUBLIC_URL%/config.js"></script>`
+```
+<script type="text/javascript" src="%PUBLIC_URL%/config.js"></script>
+```
 
 Second a configuration, config.json,  as described below is used to help parameterize the URL and Environment name.
 
 
-`window.ENV = {
+```
+window.ENV = {
     "ENVIRONMENT":"Sandbox",
     "CREDIT_API_URL": 'http://a9347a68491c148888eddca613b59b58-928692631.us-east-2.elb.amazonaws.com:5000/credit',
     "MORTGAGE_API_URL": 'http://a2440a047da2d4948a657f60ece04342-364399738.us-east-2.elb.amazonaws.com:8080/rates'
-}`
+}
+```
 
 Inside the React application, the following shows integration of the values via window.ENV.<parameter name>. 
 
 
-    `return (<div className="card">
+```
+return (<div className="card">
     <div className="card-body">
         <h4 className="card-title">Application Environment Details</h4>
         <table class="table">
@@ -628,17 +672,21 @@ Inside the React application, the following shows integration of the values via 
         </table>
     </div>
 </div>
-);`
+);
+```
 
 
 The config.json is deployed to Kubernetes via a ConfigMap as shown below for sandbox and is defined as a file versus specifying environment variables.
 
-`kubectl create configmap broker-app-config --from-file=./sandbox/config.js -n octank-sandbox`
+```
+kubectl create configmap broker-app-config --from-file=./sandbox/config.js -n octank-sandbox
+```
 
 Once this has been deployed, the Helm chart is updated to mount this file to the Pod when it is running and thus make the environment details bind.
 
 
-`...
+```
+...
           volumeMounts:
           - name: broker-app-config-volume
             readOnly: true
@@ -650,7 +698,8 @@ Once this has been deployed, the Helm chart is updated to mount this file to the
           configMap:
             # Provide the name of the ConfigMap containing the files you want
             # to add to the container
-            name: broker-app-config`
+            name: broker-app-config
+```
 
 
 
@@ -668,7 +717,8 @@ https://spinnaker.io/setup/install/providers/kubernetes-v2/aws-eks/
 Once installed the following pods displayed:
 
 
-`$ kubectl -n spinnaker get pods
+```
+$ kubectl -n spinnaker get pods
 NAME READY STATUS RESTARTS AGE
 spin-clouddriver-f54c5c76-7bzjz 1/1 Running 0 4m8s
 spin-deck-5c7cb9db95-mdkwf 1/1 Running 0 4m10s
@@ -677,12 +727,14 @@ spin-front50-5df6d9cbc9-drdbw 1/1 Running 0 4m9s
 spin-gate-7dfd4f8dd7-8pb8w 1/1 Running 0 4m9s
 spin-orca-7ff69bdd57-4clwt 1/1 Running 0 4m9s
 spin-redis-76f844dbc-mh9tr 1/1 Running 0 6m21s
-spin-rosco-d4465f598-9mwnk 1/1 Running 0 4m9s`
+spin-rosco-d4465f598-9mwnk 1/1 Running 0 4m9s
+```
 
 Installation also exposed deck and gate pods with ELB:
 
 
-`$ kubectl -n spinnaker get svc
+```
+$ kubectl -n spinnaker get svc
 NAME               TYPE           CLUSTER-IP       EXTERNAL-IP                                                               PORT(S)        AGE
 spin-clouddriver   ClusterIP      10.100.37.5      <none>                                                                    7002/TCP       3m21s
 spin-deck          ClusterIP      10.100.80.68     <none>                                                                    9000/TCP       3m19s
@@ -692,8 +744,9 @@ spin-front50       ClusterIP      10.100.129.83    <none>                       
 spin-gate          ClusterIP      10.100.57.105    <none>                                                                    8084/TCP       3m19s
 spin-gate-public   LoadBalancer   10.100.168.165   a0bf1b2a5abd74c538098524f223330a-1152939141.us-east-2.elb.amazonaws.com   80:30830/TCP   2m19s
 spin-orca          ClusterIP      10.100.11.93     <none>                                                                    8083/TCP       3m20s
-spin-redis         ClusterIP      10.100.171.194   <none>                                                                    6379/TCP       3m20s`
+spin-redis         ClusterIP      10.100.171.194   <none>                                                                    6379/TCP       3m20s
 spin-rosco         ClusterIP      10.100.143.38    <none> 
+```
 
 Once up and running accessing the Spinnaker UI by accessing the spin-deck-public service. 
 [Image: Screen Shot 2020-08-04 at 2.42.19 PM.png]Once the display is available, selecting applications provides a list of available applications by looking a the deployments in Kubernetes:
@@ -704,7 +757,9 @@ Spinnaker is able to query the Kubernetes cluster for existing applications, in 
 [Image: Screen Shot 2020-08-10 at 9.52.51 AM.png]The GUI allows one to *Add stage* steps which in this case starts with Configuration, Bakes the Manifest, Deploy to Sandbox, Verify Sandbox Deployment and finally Deploy to Testing. The configuration step access a S3 bucket to read in Helm configuration defined previously and packaged using the following command:
 
 
-`$ helm package broker-app-chart`
+```
+$ helm package broker-app-chart
+```
 Successfully packaged chart and saved it to: /Users/crileya/Work/MB/MB3/octank-infrastructure/helm/broker-app-chart-0.0.1.tgz
 
 This artifact is uploaded to S3 as shown below:
@@ -749,7 +804,7 @@ Created a Hosted Zone with Public Domain under Route 53. The following image sho
 [Image: Screen Shot 2020-08-12 at 11.54.28 AM.png]Within GoDaddy DNS Administration, export the Zone details (e.g. Export Zone File (Unix)) for import into Route53. This is available as shown below:
 [Image: Screen Shot 2020-08-12 at 11.57.00 AM.png]Export of the file (UNIX) was done and it create the following details:
 
-
+```
 ; Domain: demo2company.com
 ; Exported (y-m-d hh:mm:ss): 2020-08-12 08:56:50
 ;
@@ -807,7 +862,7 @@ _domainconnect    3600     IN     CNAME    _domainconnect.gd.domaincontrol.com.
 ; NS Records
 @    3600     IN     NS    ns11.domaincontrol.com.
 @    3600     IN     NS    ns12.domaincontrol.com.
-
+```
 
 [Image: Screen Shot 2020-08-12 at 11.59.02 AM.png]Entering the file as-is into the editor returned errors that the SOA entry already existed. Selectively only the CNAME record entry was entered only and it successfully displayed in Route53.
 
@@ -844,7 +899,7 @@ Accessed AWS Certificate Manager and created a Public Certificate. In this wizar
 
 [Image: Screen Shot 2020-08-12 at 1.53.08 PM.png]Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
 
-
+```
 #service.yaml
 apiVersion: v1
 kind: Service
@@ -875,6 +930,7 @@ service:
   type: LoadBalancer
   port: 443
   targetPort: 80
+```
 
 This process is repeated for credit and mortgage APIs in a similar fashion and those services are redeployed via Spinnaker. *NOTE: the service port creates a Security Group with that port open for inbound traffic.* 
 
