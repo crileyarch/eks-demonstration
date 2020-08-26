@@ -1000,13 +1000,14 @@ Once the namespaces are updated, we need to add an ALIAS record in Route53 to ro
 The above allowed access to the sandbox react application. In order to support the multiple environments the following URLs were created and mapped as A Records to create sub-domains under demo2company.com. 
 
 
-Application	URL	Mapping
-React Sandbox	http://sandbox.demo2company.com	React Sandbox ELB
-React Testing	http://testing.demo2company.com	React Testing ELB
-Credit API Sandbox	http://api.sandbox.credit.demo2company.com	NodeJS API Sandbox ELB
-Credit API Testing	http://api.testing.credit.demo2company.com	NodeJS API Testing ELB
-Mortgage API Sandbox	http://api.sandbox.mortgage.demo2company.com	Spring Boot API Sandbox ELB
-Mortgage API Testing	http://api.testing.mortgage.demo2company.com	Spring Boot API Testing ELB
+Application |	URL  |	Mapping
+===============================
+React Sandbox |	http://sandbox.demo2company.com	| React Sandbox ELB
+React Testing | http://testing.demo2company.com	| React Testing ELB
+Credit API Sandbox	| http://api.sandbox.credit.demo2company.com |	NodeJS API Sandbox ELB
+Credit API Testing	| http://api.testing.credit.demo2company.com | NodeJS API Testing ELB
+Mortgage API Sandbox | http://api.sandbox.mortgage.demo2company.com	 | Spring Boot API Sandbox ELB
+Mortgage API Testing | http://api.testing.mortgage.demo2company.com	 | Spring Boot API Testing ELB
 
 [Image: Screen Shot 2020-08-12 at 1.41.10 PM.png]
 
@@ -1082,11 +1083,11 @@ octank-tco-2020.pdf (https://quip-amazon.com/-/blob/DBA9AAveLgG/cHJNQ85k1xCjcNOT
 
 ## References
 
-Spring Boot on Kubernetes: https://blog.nebrass.fr/playing-with-spring-boot-on-kubernetes/
-Kubernetes DNS: https://medium.com/kubernetes-tutorials/kubernetes-dns-for-services-and-pods-664804211501
-Secrets Manager POC with Kubernetes: https://aws.amazon.com/ko/blogs/containers/aws-secrets-controller-poc/
-Spinnaker Reference Architecture: https://spinnaker.io/reference/architecture/
-CodeBuild: https://aws.amazon.com/blogs/devops/build-a-continuous-delivery-pipeline-for-your-container-images-with-amazon-ecr-as-source/
-React using ConfigMap: https://medium.com/@dekauliya/adding-external-config-to-static-react-app-with-docker-and-kubernetes-in-ci-cd-96e988561096
-Active Directory integration with Amazon Cognito: https://www.youtube.com/watch?v=QHoOChLVv_k
+1. Spring Boot on Kubernetes: https://blog.nebrass.fr/playing-with-spring-boot-on-kubernetes/
+2. Kubernetes DNS: https://medium.com/kubernetes-tutorials/kubernetes-dns-for-services-and-pods-664804211501
+3. Secrets Manager POC with Kubernetes: https://aws.amazon.com/ko/blogs/containers/aws-secrets-controller-poc/
+4. Spinnaker Reference Architecture: https://spinnaker.io/reference/architecture/
+5. CodeBuild: https://aws.amazon.com/blogs/devops/build-a-continuous-delivery-pipeline-for-your-container-images-with-amazon-ecr-as-source/
+6. React using ConfigMap: https://medium.com/@dekauliya/adding-external-config-to-static-react-app-with-docker-and-kubernetes-in-ci-cd-96e988561096
+7. Active Directory integration with Amazon Cognito: https://www.youtube.com/watch?v=QHoOChLVv_k
 
