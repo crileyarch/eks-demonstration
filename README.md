@@ -389,8 +389,6 @@ The next phase is to demonstrate mechanisms to reduce the time it takes to deliv
 
 ![image](./images/speed.png)
 
-#### Continuous Integration
-
 *Source Code Management*
 
 Each project is stored within CodeCommit separately providing support for Git branching strategies for development teams to collaborate and have full transparency of the code base.
@@ -399,7 +397,7 @@ Created CodeCommit repositories for both UI and two APIs.
 
 ![image](./images/codecommit-1.png)
 
-*Application Overview*
+#### Application Overview
 
 *Mortgage API*
 
@@ -426,10 +424,12 @@ The credit API is a NodeJS based application. The core components are described 
 
 *Broker Application*
 
+The broker application uses the React framework, Bootstrap for styling and the Axios package to integrate the Mortgage and Credit APIs into respective components on the HTML page. 
 
 * React src
 * package.json
 * buildspec.yml (CodeBuild)
+* aws-export.js (AWS Amplify / Cognito requirement)
 * imagedefinitions.json
 * Dockerfile (container definition)
 * Helm 3 chart
@@ -446,7 +446,7 @@ The automated build leverages AWS CodePipeline, AWS CodeCommit and AWS CodeBuild
 
 Each project leverages a suitable test automation framework for Unit Testing (e.g. JUnit, Jest) and this test is executed by the package management solution (e.g. maven, npm) during the build process.
 
-Time to Market (Continuous Delivery)
+### Speed
 
 Continuous Delivery in this demonstration will leverage Spinnaker (https://spinnaker.io/), a Netflix OSS project. 
 
