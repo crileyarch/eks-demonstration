@@ -917,7 +917,7 @@ The output of the bake step is to generate an artifact (base64 encoded) and iden
 
 The deploy to sandbox stage calls out the previously baked artifact and also specifies the octank-sandbox namespace.
 
-![image](./images/spinnaker-pipeline-sandbox)
+![image](./images/spinnaker-pipeline-sandbox.png)
 
 This stage leverages Kubernetes to rollout of the application. Spinnaker can also manage the release if it is enabled including highlander and red/black deployments. Upon completion of the deployment, a verification stage occurs waiting for approval. 
 
@@ -925,7 +925,7 @@ This stage leverages Kubernetes to rollout of the application. Spinnaker can als
 
 Finally we deploy to octank-testing namespace as shown below.
 
-![image](./images/spinnaker-testing-v1.png)
+![image](./images/spinnaker-pipeline-testing.png)
 
 Once the deployment is complete, the endpoint for the broker-app is available by selecting Load Balancer to get the DNS entry. 
 
