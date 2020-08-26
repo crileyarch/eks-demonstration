@@ -278,9 +278,11 @@ Time to Market (Continuous Integration)
 
 Each project is stored within CodeCommit separately providing support for Git branching strategies for development teams to collaborate and have full transparency of the code base.
 
-Using isenguard.amazon.com (http://isenguard.amazon.com/) created CodeCommit repositories for both UI and two APIs.
+Created CodeCommit repositories for both UI and two APIs.
 
-[Image: Screen Shot 2020-07-14 at 11.11.38 AM.png]*Application Overview*
+[Image: Screen Shot 2020-07-14 at 11.11.38 AM.png]
+
+*Application Overview*
 
 *Mortgage API*
 
@@ -320,7 +322,9 @@ The credit API is a NodeJS based application. The core components are described 
 
 The automated build leverages AWS CodePipeline, AWS CodeCommit and AWS CodeBuild to take changes to the source branch, execute tests, perform the Container Build and push the resulting image to Amazon ECR. 
 
-[Image: Screen Shot 2020-07-14 at 11.16.23 AM.png]*Test Automation*
+[Image: Screen Shot 2020-07-14 at 11.16.23 AM.png]
+
+*Test Automation*
 
 Each project leverages a suitable test automation framework for Unit Testing (e.g. JUnit, Jest) and this test is executed by the package management solution (e.g. maven, npm) during the build process.
 
@@ -778,30 +782,57 @@ spin-rosco         ClusterIP      10.100.143.38    <none>
 ```
 
 Once up and running accessing the Spinnaker UI by accessing the spin-deck-public service. 
-[Image: Screen Shot 2020-08-04 at 2.42.19 PM.png]Once the display is available, selecting applications provides a list of available applications by looking a the deployments in Kubernetes:
 
-[Image: Screen Shot 2020-08-04 at 4.12.01 PM.png]*Spinnaker Pipeline*
+[Image: Screen Shot 2020-08-04 at 2.42.19 PM.png]
+
+Once the display is available, selecting applications provides a list of available applications by looking a the deployments in Kubernetes:
+
+[Image: Screen Shot 2020-08-04 at 4.12.01 PM.png]
+
+*Spinnaker Pipeline*
 
 Spinnaker is able to query the Kubernetes cluster for existing applications, in our example we started with using Helm to install to the cluster. A pipeline is a series of user defined steps to deploy to Kubernetes. The image below shows the broker-app.
-[Image: Screen Shot 2020-08-10 at 9.52.51 AM.png]The GUI allows one to *Add stage* steps which in this case starts with Configuration, Bakes the Manifest, Deploy to Sandbox, Verify Sandbox Deployment and finally Deploy to Testing. The configuration step access a S3 bucket to read in Helm configuration defined previously and packaged using the following command:
+
+[Image: Screen Shot 2020-08-10 at 9.52.51 AM.png]
+
+
+The GUI allows one to *Add stage* steps which in this case starts with Configuration, Bakes the Manifest, Deploy to Sandbox, Verify Sandbox Deployment and finally Deploy to Testing. The configuration step access a S3 bucket to read in Helm configuration defined previously and packaged using the following command:
 
 
 ```
 $ helm package broker-app-chart
-```
 Successfully packaged chart and saved it to: /Users/crileya/Work/MB/MB3/octank-infrastructure/helm/broker-app-chart-0.0.1.tgz
+```
 
 This artifact is uploaded to S3 as shown below:
 
-[Image: Screen Shot 2020-08-10 at 9.57.07 AM.png]Once uploaded, the configuration step consumes the helm chart package and moves to the bake step.
-[Image: Screen Shot 2020-08-10 at 9.59.51 AM.png]The output of the bake step is to generate an artifact (base64 encoded) and identified as broker-app-chart. This is referenced in the Deploy stages that follow.
-[Image: Screen Shot 2020-08-10 at 9.59.56 AM.png]The deploy to sandbox stage calls out the previously baked artifact and also specifies the octank-sandbox namespace. 
-[Image: Screen Shot 2020-08-10 at 10.03.33 AM.png]This stage leverages Kubernetes to rollout of the application. Spinnaker can also manage the release if it is enabled as shown below:
-[Image: Screen Shot 2020-08-10 at 10.05.13 AM.png]Upon completion of the deployment, a verification stage occurs waiting for approval. 
+[Image: Screen Shot 2020-08-10 at 9.57.07 AM.png]
+
+Once uploaded, the configuration step consumes the helm chart package and moves to the bake step.
+
+[Image: Screen Shot 2020-08-10 at 9.59.51 AM.png]
+
+The output of the bake step is to generate an artifact (base64 encoded) and identified as broker-app-chart. This is referenced in the Deploy stages that follow.
+
+[Image: Screen Shot 2020-08-10 at 9.59.56 AM.png]
+
+The deploy to sandbox stage calls out the previously baked artifact and also specifies the octank-sandbox namespace.
+
+[Image: Screen Shot 2020-08-10 at 10.03.33 AM.png]
+
+This stage leverages Kubernetes to rollout of the application. Spinnaker can also manage the release if it is enabled as shown below:
+
+[Image: Screen Shot 2020-08-10 at 10.05.13 AM.png]
+
+Upon completion of the deployment, a verification stage occurs waiting for approval. 
 
 [Image: Screen Shot 2020-08-10 at 10.07.45 AM.png]
+
 Finally we deploy to octank-testing namespace as shown below.
-[Image: Screen Shot 2020-08-10 at 10.07.50 AM.png]Once the deployment is complete, the endpoint for the broker-app is available by selecting Load Balancer to get the DNS entry. 
+
+[Image: Screen Shot 2020-08-10 at 10.07.50 AM.png]
+
+Once the deployment is complete, the endpoint for the broker-app is available by selecting Load Balancer to get the DNS entry. 
 
 *Scaling / Rollback*
 
@@ -828,10 +859,18 @@ https://itnext.io/using-letsencrypt-ssl-certificates-in-aws-certificate-manager-
 https://lobster1234.github.io/2017/05/10/migrating-a-domain-to-amazon-route53/
 
 Purchased domain from GoDaddy with the following DNS properties.
+
 [Image: Screen Shot 2020-08-12 at 11.49.17 AM.png]
+
 Created a Hosted Zone with Public Domain under Route 53. The following image shows the demo2company.com (http://demo2company.com/) details below.
-[Image: Screen Shot 2020-08-12 at 11.54.28 AM.png]Within GoDaddy DNS Administration, export the Zone details (e.g. Export Zone File (Unix)) for import into Route53. This is available as shown below:
-[Image: Screen Shot 2020-08-12 at 11.57.00 AM.png]Export of the file (UNIX) was done and it create the following details:
+
+[Image: Screen Shot 2020-08-12 at 11.54.28 AM.png]
+
+Within GoDaddy DNS Administration, export the Zone details (e.g. Export Zone File (Unix)) for import into Route53. This is available as shown below:
+
+[Image: Screen Shot 2020-08-12 at 11.57.00 AM.png]
+
+Export of the file (UNIX) was done and it create the following details:
 
 ```
 ; Domain: demo2company.com
@@ -893,16 +932,31 @@ _domainconnect    3600     IN     CNAME    _domainconnect.gd.domaincontrol.com.
 @    3600     IN     NS    ns12.domaincontrol.com.
 ```
 
-[Image: Screen Shot 2020-08-12 at 11.59.02 AM.png]Entering the file as-is into the editor returned errors that the SOA entry already existed. Selectively only the CNAME record entry was entered only and it successfully displayed in Route53.
+[Image: Screen Shot 2020-08-12 at 11.59.02 AM.png]
+
+Entering the file as-is into the editor returned errors that the SOA entry already existed. Selectively only the CNAME record entry was entered only and it successfully displayed in Route53.
 
 The next step was to update the NS records at GoDaddy and replace the current GoDaddy Nameservers with Route53. 
 
-[Image: Screen Shot 2020-08-12 at 12.05.37 PM.png]Select the *Enter my own nameservers(advanced). *
-[Image: Screen Shot 2020-08-12 at 12.05.20 PM.png]Select Change to update the Nameservers as shown below. Using the Route53 console, the NS entries are copied one by one to the GoDaddy console. Selecting Save soon after domain creation returned errors. Waiting an additional 15 minutes resolved this.
-[Image: Screen Shot 2020-08-12 at 12.06.59 PM.png]Once the values have been updated, GoDaddy shows the use of the custom nameservers. 
-[Image: Screen Shot 2020-08-12 at 12.25.20 PM.png]Once the namespaces are updated, we need to add an ALIAS record in Route53 to route domain traffic to an ELB running in the region where the Kubernetes cluster / Classic Load Balancer is running. One will be for Sandbox and the other for Testing. Create an additional Record of type ALIAS, in us-east-2 pointing at the React Sandbox Loadbalancer. Access to that value can be done using “kubectl get svc -n octank-sandbox” or using Spinnaker Infrastructure console for the Broker application. Below is the configuration for sandbox.
+[Image: Screen Shot 2020-08-12 at 12.05.37 PM.png]
 
-[Image: Screen Shot 2020-08-12 at 12.44.57 PM.png]The above allowed access to the sandbox react application. In order to support the multiple environments the following URLs were created and mapped as A Records to create sub-domains under demo2company.com. 
+Select the *Enter my own nameservers(advanced).*
+
+[Image: Screen Shot 2020-08-12 at 12.05.20 PM.png]
+
+Select Change to update the Nameservers as shown below. Using the Route53 console, the NS entries are copied one by one to the GoDaddy console. Selecting Save soon after domain creation returned errors. Waiting an additional 15 minutes resolved this.
+
+[Image: Screen Shot 2020-08-12 at 12.06.59 PM.png]
+
+Once the values have been updated, GoDaddy shows the use of the custom nameservers. 
+
+[Image: Screen Shot 2020-08-12 at 12.25.20 PM.png]
+
+Once the namespaces are updated, we need to add an ALIAS record in Route53 to route domain traffic to an ELB running in the region where the Kubernetes cluster / Classic Load Balancer is running. One will be for Sandbox and the other for Testing. Create an additional Record of type ALIAS, in us-east-2 pointing at the React Sandbox Loadbalancer. Access to that value can be done using “kubectl get svc -n octank-sandbox” or using Spinnaker Infrastructure console for the Broker application. Below is the configuration for sandbox.
+
+[Image: Screen Shot 2020-08-12 at 12.44.57 PM.png]
+
+The above allowed access to the sandbox react application. In order to support the multiple environments the following URLs were created and mapped as A Records to create sub-domains under demo2company.com. 
 
 
 Application	URL	Mapping
@@ -913,11 +967,16 @@ Credit API Testing	http://api.testing.credit.demo2company.com	NodeJS API Testing
 Mortgage API Sandbox	http://api.sandbox.mortgage.demo2company.com	Spring Boot API Sandbox ELB
 Mortgage API Testing	http://api.testing.mortgage.demo2company.com	Spring Boot API Testing ELB
 
-[Image: Screen Shot 2020-08-12 at 1.41.10 PM.png]Returning to ACM, the certificate is shown as below with the appropriate details.
+[Image: Screen Shot 2020-08-12 at 1.41.10 PM.png]
 
-[Image: Screen Shot 2020-08-12 at 1.55.09 PM.png]This creates a series of CNAME entries in Route53 for DNS validation and automated certificate rotation. The following blog link discusses the use of this for validation:
+Returning to ACM, the certificate is shown as below with the appropriate details.
+
+[Image: Screen Shot 2020-08-12 at 1.55.09 PM.png]
+
+This creates a series of CNAME entries in Route53 for DNS validation and automated certificate rotation. The following blog link discusses the use of this for validation:
 
 https://aws.amazon.com/blogs/security/easier-certificate-validation-using-dns-with-aws-certificate-manager/
+
 [Image: Screen Shot 2020-08-13 at 3.44.35 PM.png]
 
 #### Encryption for Mortgage Broker Application
@@ -926,7 +985,9 @@ https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-e
 
 Accessed AWS Certificate Manager and created a Public Certificate. In this wizard the subdomains / domain was entered versus doing a wild card certificate to reduce the attack surface. When completed, ACM places CNAME records in the hosted zone as shown below. 
 
-[Image: Screen Shot 2020-08-12 at 1.53.08 PM.png]Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
+[Image: Screen Shot 2020-08-12 at 1.53.08 PM.png]
+
+Because the application is using Classic LoadBalancers to front the React, Spring and NodeJS services, the Helm chart needs to be updated, specifically the service.yaml and values.yaml. 
 
 ```
 #service.yaml
@@ -963,7 +1024,8 @@ service:
 
 This process is repeated for credit and mortgage APIs in a similar fashion and those services are redeployed via Spinnaker. *NOTE: the service port creates a Security Group with that port open for inbound traffic.* 
 
-Once the above is complete the React application is available at https://sandbox.demo2company.com (https://sandbox.demo2company.com/) and https://testing.demo2company.com (https://testing.demo2company.com/) .
+Once the above is complete the React application is available at https://sandbox.demo2company.com (https://sandbox.demo2company.com/) and https://testing.demo2company.com (https://testing.demo2company.com/).
+
 [Image: Screen Shot 2020-08-12 at 4.45.56 PM.png]
 
 #### Cognito Integration with React
