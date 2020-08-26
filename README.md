@@ -890,7 +890,7 @@ Once the display is available, selecting applications provides a list of availab
 
 Spinnaker is able to query the Kubernetes cluster for existing applications, in our example we started with using Helm to install to the cluster. A pipeline is a series of user defined steps to deploy to Kubernetes. The image below shows the broker-app.
 
-[Image: Screen Shot 2020-08-10 at 9.52.51 AM.png]
+![image](./images/spinnaker-pipeline-config-1.png)
 
 
 The GUI allows one to *Add stage* steps which in this case starts with Configuration, Bakes the Manifest, Deploy to Sandbox, Verify Sandbox Deployment and finally Deploy to Testing. The configuration step access a S3 bucket to read in Helm configuration defined previously and packaged using the following command:
@@ -907,27 +907,25 @@ This artifact is uploaded to S3 as shown below:
 
 Once uploaded, the configuration step consumes the helm chart package and moves to the bake step.
 
-[Image: Screen Shot 2020-08-10 at 9.59.51 AM.png]
+![image](./images/spinnaker-pipeline-config-1.png)
 
 The output of the bake step is to generate an artifact (base64 encoded) and identified as broker-app-chart. This is referenced in the Deploy stages that follow.
 
-[Image: Screen Shot 2020-08-10 at 9.59.56 AM.png]
+![image](./images/spinnaker-pipeline-bake-1.png)
+
+![image](./images/spinnaker-pipeline-bake-2.png)
 
 The deploy to sandbox stage calls out the previously baked artifact and also specifies the octank-sandbox namespace.
 
-[Image: Screen Shot 2020-08-10 at 10.03.33 AM.png]
+![image](./images/spinnaker-pipeline-sandbox)
 
-This stage leverages Kubernetes to rollout of the application. Spinnaker can also manage the release if it is enabled as shown below:
+This stage leverages Kubernetes to rollout of the application. Spinnaker can also manage the release if it is enabled including highlander and red/black deployments. Upon completion of the deployment, a verification stage occurs waiting for approval. 
 
-[Image: Screen Shot 2020-08-10 at 10.05.13 AM.png]
-
-Upon completion of the deployment, a verification stage occurs waiting for approval. 
-
-[Image: Screen Shot 2020-08-10 at 10.07.45 AM.png]
+![image](./images/spinnaker-pipeline-verify.png)
 
 Finally we deploy to octank-testing namespace as shown below.
 
-[Image: Screen Shot 2020-08-10 at 10.07.50 AM.png]
+![image](./images/spinnaker-testing-v1.png)
 
 Once the deployment is complete, the endpoint for the broker-app is available by selecting Load Balancer to get the DNS entry. 
 
