@@ -1012,6 +1012,7 @@ octank-tco-2020.pdf (https://quip-amazon.com/-/blob/DBA9AAveLgG/cHJNQ85k1xCjcNOT
 5. CodeBuild: https://aws.amazon.com/blogs/devops/build-a-continuous-delivery-pipeline-for-your-container-images-with-amazon-ecr-as-source/
 6. React using ConfigMap: https://medium.com/@dekauliya/adding-external-config-to-static-react-app-with-docker-and-kubernetes-in-ci-cd-96e988561096
 7. Active Directory integration with Amazon Cognito: https://www.youtube.com/watch?v=QHoOChLVv_k
+8. Kubernetes with Spinnaker: https://www.bogotobogo.com/DevOps/Docker/Docker_Kubernetes_EKS_Spinnaker.php
 
 ## Appendix
 
