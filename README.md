@@ -1016,6 +1016,15 @@ octank-tco-2020.pdf (https://quip-amazon.com/-/blob/DBA9AAveLgG/cHJNQ85k1xCjcNOT
 
 ## Appendix
 
+### CodeCommit Clone Issues
+    
+If when attempting to clone from CodeCommit you receive a "fatal: repository" error. The following two configuration settings helped remove the issue:
+    
+```
+$ git config --global credential.helper '!aws codecommit credential-helper $@'
+$ git config --global credential.UseHttpPath true
+```
+    
 ### DNS Configuration
 
 
